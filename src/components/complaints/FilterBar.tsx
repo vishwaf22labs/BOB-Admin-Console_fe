@@ -1,4 +1,11 @@
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import {
   ASSIGNEE_OPTIONS,
   CATEGORY_OPTIONS,
   CHANNEL_OPTIONS,
@@ -22,53 +29,57 @@ export function FilterBar({
 }) {
   return (
     <div className="flex flex-wrap items-center gap-2 rounded-md border bg-card p-3 text-xs shadow-sm">
-      <select
-        className="h-8 rounded-md border bg-background px-2 text-xs"
-        value={statusFilter}
-        onChange={(e) => onUpdate("status", e.target.value)}
-      >
-        {STATUS_OPTIONS.map((opt) => (
-          <option key={opt.value} value={opt.value}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
+      <Select value={statusFilter} onValueChange={(val) => onUpdate("status", val)}>
+        <SelectTrigger className="h-9 min-w-[130px] text-xs">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {STATUS_OPTIONS.map((opt) => (
+            <SelectItem key={opt.value} value={opt.value} className="text-xs">
+              {opt.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
 
-      <select
-        className="h-8 rounded-md border bg-background px-2 text-xs"
-        value={channelFilter}
-        onChange={(e) => onUpdate("channel", e.target.value)}
-      >
-        {CHANNEL_OPTIONS.map((opt) => (
-          <option key={opt.value} value={opt.value}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
+      <Select value={channelFilter} onValueChange={(val) => onUpdate("channel", val)}>
+        <SelectTrigger className="h-9 min-w-[130px] text-xs">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {CHANNEL_OPTIONS.map((opt) => (
+            <SelectItem key={opt.value} value={opt.value} className="text-xs">
+              {opt.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
 
-      <select
-        className="h-8 rounded-md border bg-background px-2 text-xs"
-        value={categoryFilter}
-        onChange={(e) => onUpdate("category", e.target.value)}
-      >
-        {CATEGORY_OPTIONS.map((opt) => (
-          <option key={opt.value} value={opt.value}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
+      <Select value={categoryFilter} onValueChange={(val) => onUpdate("category", val)}>
+        <SelectTrigger className="h-9 min-w-[150px] text-xs">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {CATEGORY_OPTIONS.map((opt) => (
+            <SelectItem key={opt.value} value={opt.value} className="text-xs">
+              {opt.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
 
-      <select
-        className="h-8 rounded-md border bg-background px-2 text-xs"
-        value={assigneeFilter}
-        onChange={(e) => onUpdate("assignedTo", e.target.value)}
-      >
-        {ASSIGNEE_OPTIONS.map((opt) => (
-          <option key={opt.value} value={opt.value}>
-            {opt.label}
-          </option>
-        ))}
-      </select>
+      <Select value={assigneeFilter} onValueChange={(val) => onUpdate("assignedTo", val)}>
+        <SelectTrigger className="h-9 min-w-[130px] text-xs">
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          {ASSIGNEE_OPTIONS.map((opt) => (
+            <SelectItem key={opt.value} value={opt.value} className="text-xs">
+              {opt.label}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
     </div>
   )
 }

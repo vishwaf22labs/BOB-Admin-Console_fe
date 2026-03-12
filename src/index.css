@@ -82,6 +82,28 @@
   --login-muted-2: oklch(0.7 0 0);
   --login-muted-3: oklch(0.6 0 0);
   --login-icon-chip-bg: oklch(0.24 0 0);
+
+  /* Category colors */
+  --category-transaction-bg: oklch(0.96 0.04 270);
+  --category-transaction-text: oklch(0.38 0.15 270);
+  --category-transaction-border: oklch(0.82 0.08 270);
+  --category-atm-bg: oklch(0.97 0.05 200);
+  --category-atm-text: oklch(0.38 0.12 200);
+  --category-atm-border: oklch(0.82 0.08 200);
+  --category-account-bg: oklch(0.96 0.04 310);
+  --category-account-text: oklch(0.38 0.14 310);
+  --category-account-border: oklch(0.82 0.08 310);
+
+  /* Assignee colors */
+  --assignee-m1-bg: oklch(0.96 0.03 250);
+  --assignee-m1-text: oklch(0.38 0.12 250);
+  --assignee-m1-border: oklch(0.82 0.06 250);
+  --assignee-m2-bg: oklch(0.96 0.04 180);
+  --assignee-m2-text: oklch(0.38 0.12 180);
+  --assignee-m2-border: oklch(0.82 0.06 180);
+  --assignee-m3-bg: oklch(0.97 0.05 30);
+  --assignee-m3-text: oklch(0.42 0.14 30);
+  --assignee-m3-border: oklch(0.82 0.08 30);
 }
 
 .dark {
@@ -160,6 +182,28 @@
   --login-muted-2: oklch(0.78 0 0);
   --login-muted-3: oklch(0.7 0 0);
   --login-icon-chip-bg: oklch(0.2 0 0);
+
+  /* Category colors (dark) */
+  --category-transaction-bg: oklch(0.25 0.04 270);
+  --category-transaction-text: oklch(0.88 0.08 270);
+  --category-transaction-border: oklch(0.4 0.06 270);
+  --category-atm-bg: oklch(0.25 0.04 200);
+  --category-atm-text: oklch(0.88 0.08 200);
+  --category-atm-border: oklch(0.4 0.06 200);
+  --category-account-bg: oklch(0.25 0.04 310);
+  --category-account-text: oklch(0.88 0.08 310);
+  --category-account-border: oklch(0.4 0.06 310);
+
+  /* Assignee colors (dark) */
+  --assignee-m1-bg: oklch(0.25 0.03 250);
+  --assignee-m1-text: oklch(0.88 0.08 250);
+  --assignee-m1-border: oklch(0.4 0.05 250);
+  --assignee-m2-bg: oklch(0.25 0.04 180);
+  --assignee-m2-text: oklch(0.88 0.08 180);
+  --assignee-m2-border: oklch(0.4 0.05 180);
+  --assignee-m3-bg: oklch(0.26 0.05 30);
+  --assignee-m3-text: oklch(0.88 0.08 30);
+  --assignee-m3-border: oklch(0.42 0.06 30);
 }
 
 @theme inline {
@@ -213,5 +257,15 @@
   }
   html {
     @apply font-sans;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }

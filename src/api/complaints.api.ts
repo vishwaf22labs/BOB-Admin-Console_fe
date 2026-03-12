@@ -3,7 +3,7 @@ import type {
   ComplaintSourceChannel,
   Complaint,
   ComplaintsListResponse,
-} from "../types/complaints"
+} from "@/types/complaints"
 import { api } from "@/lib/axios"
 
 export interface ListComplaintsFilters {

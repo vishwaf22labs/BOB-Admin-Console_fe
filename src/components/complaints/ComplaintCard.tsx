@@ -210,21 +210,6 @@ export function ComplaintCard({
           </div>
         </section>
 
-        {c.sourceChannel === "sign" && (
-          <section className="space-y-2">
-            <div className="border-b pb-1 text-sm font-semibold text-foreground">
-              Sign Language
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
-                Confidence
-              </span>
-              <Badge className="border border-border bg-muted text-muted-foreground">
-                {c.signConfidencePct ? `${c.signConfidencePct}%` : "-"}
-              </Badge>
-            </div>
-          </section>
-        )}
 
         <section className="space-y-2">
           <div className="border-b pb-1 text-sm font-semibold text-foreground">

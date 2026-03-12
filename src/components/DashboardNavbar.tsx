@@ -1,4 +1,12 @@
+import { LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 import { VOICE_LANGUAGE_OPTIONS } from "@/constants/filters"
 import type { AuthRole } from "@/types/auth"
 
@@ -19,58 +27,90 @@ export function DashboardNavbar({
   onVoiceLanguageChange: (language: string) => void
   onLogout: () => void
 }) {
+  const displayName = userName && userName.trim() !== "" 
+    ? userName 
+    : (userRole === "super_admin" ? "Administrator" : "Bank Staff")
+
+  const initial = displayName.charAt(0).toUpperCase()
+
   return (
-    <header className="flex items-center justify-between border-b bg-card px-6 py-3 shadow-sm">
-      <div className="flex items-center gap-2">
-        <div
-          className="flex h-8 w-8 items-center justify-center rounded-md text-xs font-bold shadow"
-          style={{
-            backgroundColor: "var(--brand-bg)",
-            color: "var(--brand-text)",
-          }}
-        >
-          BoB
-        </div>
-        <div className="flex flex-col">
-          <span className="text-sm font-semibold">
-            Complaint Management Console
-          </span>
-          <span className="text-xs text-muted-foreground">
-            AI-powered escalation & resolution
-          </span>
-        </div>
-      </div>
+    <header className="sticky top-0 z-30 border-b border-border bg-card shadow-sm">
+      <div className="flex h-14 items-center justify-between gap-4 px-6">
 
-      <div className="hidden flex-col items-end text-right md:flex">
-        <span className="text-sm font-medium">{userName}</span>
-        <span className="text-xs text-muted-foreground">
-          {userRole?.toUpperCase()} · {bankLabel}
-        </span>
-      </div>
-
-      {userRole !== "super_admin" && (
-        <div className="flex items-center gap-2">
-          <span className="text-xs font-medium text-muted-foreground">
-            Voice Callback Language:
-          </span>
-          <select
-            className="h-8 rounded-md border bg-background px-2 text-xs"
-            value={voiceLanguage ?? "english"}
-            onChange={(e) => onVoiceLanguageChange(e.target.value)}
-            disabled={voiceLanguageSaving}
+        {/* Left — Brand */}
+        <div className="flex items-center gap-3 shrink-0">
+          <div
+            className="flex h-9 w-9 items-center justify-center rounded-lg text-xs font-bold shadow-sm"
+            style={{ backgroundColor: "var(--brand-bg)", color: "var(--brand-text)" }}
           >
-            {VOICE_LANGUAGE_OPTIONS.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
+            BoB
+          </div>
+          <div className="hidden sm:flex flex-col leading-tight">
+            <span className="text-sm font-semibold text-foreground">
+              Complaint Management
+            </span>
+            <span className="text-[0.65rem] text-muted-foreground">
+              AI-powered escalation & resolution
+            </span>
+          </div>
         </div>
-      )}
 
-      <Button variant="outline" size="sm" onClick={onLogout}>
-        Logout
-      </Button>
+        {/* Center — User info pill */}
+        <div className="flex items-center gap-2 rounded-full border border-border bg-muted/40 px-4 py-1.5">
+          <div
+            className="flex h-6 w-6 items-center justify-center rounded-full text-[0.6rem] font-bold text-white shrink-0"
+            style={{ backgroundColor: "var(--brand-bg)" }}
+          >
+            {initial}
+          </div>
+          <div className="flex flex-col leading-tight">
+            <span className="text-xs font-semibold text-foreground">
+              {displayName}
+            </span>
+            <span className="text-[0.65rem] text-muted-foreground">
+              {userRole?.toUpperCase()} · {bankLabel}
+            </span>
+          </div>
+        </div>
+
+        {/* Right — Voice language + Logout */}
+        <div className="flex items-center gap-3 shrink-0">
+          {userRole !== "super_admin" && (
+            <div className="flex items-center gap-2">
+              <span className="hidden text-[0.7rem] font-medium text-muted-foreground md:block whitespace-nowrap">
+                Voice Language
+              </span>
+              <Select
+                value={voiceLanguage ?? "english"}
+                onValueChange={onVoiceLanguageChange}
+                disabled={voiceLanguageSaving}
+              >
+                <SelectTrigger className="h-8 min-w-[110px] text-xs">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {VOICE_LANGUAGE_OPTIONS.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value} className="text-xs">
+                      {opt.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={onLogout}
+            className="flex items-center gap-1.5 text-xs"
+          >
+            <LogOut className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline">Logout</span>
+          </Button>
+        </div>
+
+      </div>
     </header>
   )
 }

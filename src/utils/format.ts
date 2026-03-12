@@ -5,6 +5,20 @@ export function formatDateTime(value: string | null): string {
   return d.toLocaleString()
 }
 
+export function formatDateTime12h(value: string | null): string {
+  if (!value) return "-"
+  const d = new Date(value)
+  if (Number.isNaN(d.getTime())) return "-"
+  return d.toLocaleString(undefined, {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  })
+}
+
 export function formatCategory(cat: string): string {
   if (cat === "account_service") return "Account Service"
   if (cat === "atm") return "ATM"

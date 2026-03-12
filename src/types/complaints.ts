@@ -14,7 +14,9 @@ export interface Complaint {
   complaintCategory: string | null
   sourceChannel: ComplaintSourceChannel | null
   languageDetected: string | null
-  signConfidencePct: string | null
+  audioUrl: string | null
+  videoUrl: string | null
+  rawChatText: string | null
   status: ComplaintStatus
   assignedTo: "m1" | "m2" | "m3"
   resolutionNote: string | null

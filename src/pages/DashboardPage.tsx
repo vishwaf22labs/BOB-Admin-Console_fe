@@ -9,7 +9,7 @@ import { getVoiceLanguage, updateVoiceLanguage } from "@/api/bankSettings.api"
 import { listComplaints, resolveComplaint } from "@/api/complaints.api"
 import { DashboardNavbar } from "@/components/DashboardNavbar"
 import {
-  ComplaintCard,
+  ComplaintsTable,
   DashboardSkeleton,
   FilterBar,
   FilterChips,
@@ -34,6 +34,7 @@ type FilterKey =
   | "category"
   | "assignedTo"
   | "page"
+  | "limit"
 
 function getApiErrorMessage(err: unknown, fallback = ""): string {
   const maybeMessage =
@@ -62,7 +63,8 @@ export function DashboardPage() {
   const assigneeFilter = (searchParams.get("assignedTo") ??
     "all") as FilterAssignee
   const page = Number(searchParams.get("page")) || 1
-  const limit = 10
+  const limit = Number(searchParams.get("limit") ?? "10")
+
   const bankLabel =
     user?.role === "super_admin"
       ? "All Banks"
@@ -138,6 +140,19 @@ export function DashboardPage() {
     )
   }
 
+  const handlePageChange = (p: number) => {
+    updateParams({ page: p === 1 ? null : String(p) })
+  }
+
+  const handleLimitChange = (newLimit: number) => {
+    setSearchParams((prev) => {
+      const p = new URLSearchParams(prev)
+      p.set("limit", String(newLimit))
+      p.delete("page")
+      return p
+    })
+  }
+
   useEffect(() => {
     if (user?.role === "super_admin") return
     void (async () => {
@@ -206,7 +221,7 @@ export function DashboardPage() {
   }
 
   return (
-    <div className="flex min-h-svh flex-col bg-background text-foreground">
+    <div className="flex h-screen flex-col overflow-hidden bg-background text-foreground">
       <DashboardNavbar
         userName={user?.name}
         userRole={user?.role}
@@ -216,35 +231,35 @@ export function DashboardPage() {
         onVoiceLanguageChange={(lang) => void handleVoiceLanguageChange(lang)}
         onLogout={() => void handleLogout()}
       />
-      <main className="flex-1 px-4 py-4 md:px-6 md:py-6">
-        <div className="mb-3 w-full max-w-sm">
+
+      <header className="flex-none bg-background px-4 pb-1 pt-4 md:px-6">
+        <div className="mb-3 w-full max-sm:max-w-xs md:max-w-sm">
           <SearchBar value={searchInput} onChange={handleSearchChange} />
         </div>
-        <div className="mb-4">
+        <div className="mb-2">
           <FilterBar
             statusFilter={statusFilter}
             channelFilter={channelFilter}
             categoryFilter={categoryFilter}
             assigneeFilter={assigneeFilter}
-            onUpdate={(key, value) =>
-              updateParams({ [key]: value, page: null })
-            }
+            onUpdate={(key, value) => updateParams({ [key]: value, page: null })}
           />
         </div>
-        <div className="mb-4">
-          <FilterChips
-            searchFromUrl={searchFromUrl}
-            statusFilter={statusFilter}
-            channelFilter={channelFilter}
-            categoryFilter={categoryFilter}
-            assigneeFilter={assigneeFilter}
-            onRemove={(key) => updateParams({ [key]: null, page: null })}
-            onReset={() => {
-              setSearchParams({}, { replace: true })
-              setSearchInput("")
-            }}
-          />
-        </div>
+        <FilterChips
+          searchFromUrl={searchFromUrl}
+          statusFilter={statusFilter}
+          channelFilter={channelFilter}
+          categoryFilter={categoryFilter}
+          assigneeFilter={assigneeFilter}
+          onRemove={(key) => updateParams({ [key]: null, page: null })}
+          onReset={() => {
+            setSearchParams({}, { replace: true })
+            setSearchInput("")
+          }}
+        />
+      </header>
+
+      <main className="no-scrollbar flex-1 overflow-y-auto px-4 pt-0 md:px-6">
         {loading ? (
           <DashboardSkeleton />
         ) : complaints.length === 0 ? (
@@ -253,36 +268,33 @@ export function DashboardPage() {
             <span>No complaints found.</span>
           </div>
         ) : (
-          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {complaints.map((c) => (
-              <ComplaintCard
-                key={c.id}
-                complaint={c}
-                userRole={user?.role ?? "m1"}
-                resolutionNote={resolutionNotes[c.id] ?? ""}
-                isResolving={resolvingIds.has(c.id)}
-                onNoteChange={(val) =>
-                  setResolutionNotes((p) => ({ ...p, [c.id]: val }))
-                }
-                onResolve={() => void handleResolve(c)}
-              />
-            ))}
-          </div>
+          <ComplaintsTable
+            complaints={complaints}
+            userRole={user?.role ?? "m1"}
+            resolutionNotes={resolutionNotes}
+            resolvingIds={resolvingIds}
+            onNoteChange={(id, val) =>
+              setResolutionNotes((p) => ({ ...p, [id]: val }))
+            }
+            onResolve={(c) => void handleResolve(c)}
+          />
         )}
-        {!loading && (
-          <div className="mt-6">
-            <Pagination
-              page={page}
-              totalPages={totalPages}
-              total={total}
-              limit={limit}
-              onPageChange={(p) =>
-                updateParams({ page: p === 1 ? null : String(p) })
-              }
-            />
-          </div>
-        )}
+        {/* Padding for fixed footer */}
+        <div className="h-16" />
       </main>
+
+      {!loading && total > 0 && (
+        <footer className="fixed bottom-0 left-0 right-0 z-20 border-t border-border bg-background px-4 py-2 md:px-6">
+          <Pagination
+            page={page}
+            totalPages={totalPages}
+            total={total}
+            limit={limit}
+            onPageChange={handlePageChange}
+            onLimitChange={handleLimitChange}
+          />
+        </footer>
+      )}
     </div>
   )
 }

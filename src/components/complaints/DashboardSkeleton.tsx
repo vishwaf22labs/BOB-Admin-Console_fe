@@ -1,106 +1,89 @@
-function SkeletonLine({ className }: { className: string }) {
-  return <div className={`animate-pulse rounded-md bg-muted/60 ${className}`} />
+function SkeletonCell({ className }: { className?: string }) {
+  return (
+    <div
+      className={`h-4 animate-pulse rounded bg-muted/60 ${
+        className ?? "w-24"
+      }`}
+    />
+  )
 }
 
-function SkeletonCard() {
+function SkeletonRow() {
   return (
-    <div className="animate-pulse rounded-xl border bg-card shadow-sm">
-      <div className="border-b p-4">
-        <div className="flex items-start justify-between gap-3">
-          <div className="space-y-2">
-            <div className="h-4 w-36 rounded bg-muted/60" />
-            <div className="flex flex-wrap gap-2">
-              <div className="h-5 w-16 rounded-full bg-muted/60" />
-              <div className="h-5 w-16 rounded-full bg-muted/60" />
-              <div className="h-5 w-24 rounded-full bg-muted/60" />
-              <div className="h-5 w-14 rounded-full bg-muted/60" />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="space-y-4 p-5">
-        <div className="space-y-2">
-          <div className="h-4 w-16 rounded bg-muted/60" />
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-2">
-              <div className="h-3 w-16 rounded bg-muted/60" />
-              <div className="h-4 w-28 rounded bg-muted/60" />
-            </div>
-            <div className="space-y-2">
-              <div className="h-3 w-16 rounded bg-muted/60" />
-              <div className="h-4 w-32 rounded bg-muted/60" />
-            </div>
-            <div className="space-y-2">
-              <div className="h-3 w-16 rounded bg-muted/60" />
-              <div className="h-4 w-24 rounded bg-muted/60" />
-            </div>
-            <div className="space-y-2">
-              <div className="h-3 w-24 rounded bg-muted/60" />
-              <div className="h-4 w-20 rounded bg-muted/60" />
-            </div>
-          </div>
-        </div>
-
-        <div className="space-y-2">
-          <div className="h-4 w-24 rounded bg-muted/60" />
-          <div className="space-y-2">
-            <div className="h-3 w-24 rounded bg-muted/60" />
-            <div className="h-12 w-full rounded bg-muted/60" />
-          </div>
-          <div className="space-y-2">
-            <div className="h-3 w-28 rounded bg-muted/60" />
-            <div className="h-10 w-full rounded bg-muted/60" />
-          </div>
-        </div>
-
-        <div className="space-y-2">
-          <div className="h-4 w-24 rounded bg-muted/60" />
-          <div className="flex items-center justify-between gap-2">
-            <div className="h-8 w-8 rounded-full bg-muted/60" />
-            <div className="h-8 w-8 rounded-full bg-muted/60" />
-            <div className="h-8 w-8 rounded-full bg-muted/60" />
-          </div>
-        </div>
-
-        <div className="space-y-2">
-          <div className="h-4 w-24 rounded bg-muted/60" />
-          <div className="h-20 w-full rounded bg-muted/60" />
-          <div className="h-9 w-full rounded bg-muted/60" />
-        </div>
-      </div>
-
-      <div className="border-t px-4 py-3">
-        <div className="h-3 w-40 rounded bg-muted/60" />
-      </div>
-    </div>
+    <tr className="border-b border-border">
+      <td className="px-3 py-3">
+        <SkeletonCell className="w-24" />
+      </td>
+      <td className="px-3 py-3">
+        <SkeletonCell className="w-32" />
+      </td>
+      <td className="px-3 py-3">
+        <SkeletonCell className="w-28" />
+      </td>
+      <td className="px-3 py-3">
+        <SkeletonCell className="w-36" />
+      </td>
+      <td className="px-3 py-3">
+        <SkeletonCell className="w-24" />
+      </td>
+      <td className="px-3 py-3">
+        <SkeletonCell className="w-16" />
+      </td>
+      <td className="px-3 py-3">
+        <SkeletonCell className="w-14" />
+      </td>
+      <td className="px-3 py-3">
+        <SkeletonCell className="w-20" />
+      </td>
+      <td className="px-3 py-3">
+        <SkeletonCell className="w-10" />
+      </td>
+      <td className="px-3 py-3">
+        <SkeletonCell className="w-16" />
+      </td>
+      <td className="px-3 py-3">
+        <SkeletonCell className="w-6" />
+      </td>
+    </tr>
   )
 }
 
 export function DashboardSkeleton() {
   return (
     <div className="space-y-4">
-      <div className="w-full max-w-sm">
-        <SkeletonLine className="h-9 w-full" />
-      </div>
 
-      <div className="flex flex-wrap items-center gap-2 rounded-xl border bg-card p-3 shadow-sm">
-        <SkeletonLine className="h-8 w-28" />
-        <SkeletonLine className="h-8 w-28" />
-        <SkeletonLine className="h-8 w-28" />
-        <SkeletonLine className="h-8 w-28" />
-      </div>
-
-      <div className="flex flex-wrap items-center gap-2">
-        <SkeletonLine className="h-7 w-28 rounded-full" />
-        <SkeletonLine className="h-7 w-24 rounded-full" />
-        <SkeletonLine className="h-7 w-20 rounded-full" />
-      </div>
-
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        {Array.from({ length: 6 }).map((_, idx) => (
-          <SkeletonCard key={idx} />
-        ))}
+      <div className="overflow-hidden rounded-md border border-border">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-border bg-muted/40">
+              {[
+                "Ticket ID",
+                "Created",
+                "Name",
+                "Email",
+                "Phone",
+                "Language",
+                "Channel",
+                "Category",
+                "Assigned",
+                "Status",
+                "",
+              ].map((h, i) => (
+                <th
+                  key={i}
+                  className="whitespace-nowrap px-3 py-2 text-left text-[0.65rem] font-semibold uppercase tracking-wide text-muted-foreground"
+                >
+                  {h}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {Array.from({ length: 8 }).map((_, i) => (
+              <SkeletonRow key={i} />
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   )

@@ -48,7 +48,7 @@ export function FilterChips({
   if (!hasActiveFilters) return null
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
+    <div className="mb-5 mt-4 flex flex-wrap items-center gap-x-3 gap-y-3">
       {searchFromUrl !== "" && (
         <Chip label={searchFromUrl} onRemove={() => onRemove("search")} />
       )}

@@ -18,6 +18,9 @@ export function App() {
     const checkAuth = async () => {
       try {
         const res = await me()
+        if (res.user && !res.user.name) {
+          console.warn("User name missing from /auth/me response", res.user)
+        }
         setUser(res.user)
       } catch {
         clearUser()
