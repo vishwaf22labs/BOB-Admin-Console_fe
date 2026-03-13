@@ -2,6 +2,13 @@ export type ComplaintStatus = "open" | "resolved"
 
 export type ComplaintSourceChannel = "voice" | "chat" | "sign"
 
+export interface TranscriptMessage {
+  role: "agent" | "user"
+  content: string
+  timestamp?: string
+}
+
+
 export interface Complaint {
   uuid: string
   ticketId: string
@@ -30,7 +37,9 @@ export interface Complaint {
   callSentAt: string | null
   createdAt: string
   updatedAt: string
+  transcript: TranscriptMessage[] | null
 }
+
 
 export interface ComplaintsListResponse {
   complaints: Complaint[]

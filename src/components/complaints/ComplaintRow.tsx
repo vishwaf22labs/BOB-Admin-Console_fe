@@ -251,6 +251,38 @@ export function ComplaintRow({
                   </div>
                 </div>
 
+                {c.transcript && c.transcript.length > 0 && (
+                  <div className="space-y-2">
+                    <div className="border-b pb-1 text-xs font-semibold text-foreground">
+                      Conversation Transcript
+                    </div>
+                    <div className="flex flex-col gap-2 max-h-64 overflow-y-auto pr-1">
+                      {c.transcript.map((msg, i) => (
+                        <div
+                          key={i}
+                          className={`flex flex-col gap-0.5 ${
+                            msg.role === "user" ? "items-end" : "items-start"
+                          }`}
+                        >
+                          <span className="text-[0.6rem] font-medium uppercase tracking-wide text-muted-foreground">
+                            {msg.role === "agent" ? "AI Agent" : "User"}
+                            {msg.timestamp ? ` · ${formatDateTime12h(msg.timestamp)}` : ""}
+                          </span>
+                          <div
+                            className={`max-w-[85%] rounded-lg px-3 py-1.5 text-xs ${
+                              msg.role === "user"
+                                ? "bg-primary text-primary-foreground"
+                                : "bg-muted text-foreground"
+                            }`}
+                          >
+                            {msg.content}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {/* Escalation */}
                 <div className="space-y-2">
                   <div className="border-b pb-1 text-xs font-semibold text-foreground">
