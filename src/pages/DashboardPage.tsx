@@ -167,13 +167,13 @@ export function DashboardPage() {
   }, [user?.role])
 
   async function handleResolve(complaint: Complaint) {
-    const note = (resolutionNotes[complaint.id] ?? "").trim()
+    const note = (resolutionNotes[complaint.uuid] ?? "").trim()
     if (!note) return void toast.error("Resolution note is required")
 
-    setResolvingIds((prev) => new Set(prev).add(complaint.id))
+    setResolvingIds((prev) => new Set(prev).add(complaint.uuid))
     try {
-      await resolveComplaint(complaint.id, note)
-      setResolutionNotes((prev) => ({ ...prev, [complaint.id]: "" }))
+      await resolveComplaint(complaint.uuid, note)
+      setResolutionNotes((prev) => ({ ...prev, [complaint.uuid]: "" }))
       await fetchComplaints()
 
       toast.success("Complaint resolved", {
@@ -198,7 +198,7 @@ export function DashboardPage() {
     } finally {
       setResolvingIds((prev) => {
         const copy = new Set(prev)
-        copy.delete(complaint.id)
+        copy.delete(complaint.uuid)
         return copy
       })
     }

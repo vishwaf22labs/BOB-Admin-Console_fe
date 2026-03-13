@@ -3,7 +3,7 @@ export type ComplaintStatus = "open" | "resolved"
 export type ComplaintSourceChannel = "voice" | "chat" | "sign"
 
 export interface Complaint {
-  id: string
+  uuid: string
   ticketId: string
   userName: string | null
   userEmail: string | null

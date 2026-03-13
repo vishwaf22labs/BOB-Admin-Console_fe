@@ -14,7 +14,7 @@ export function ComplaintsTable({
   userRole: AuthRole
   resolutionNotes: Record<string, string>
   resolvingIds: Set<string>
-  onNoteChange: (id: string, val: string) => void
+  onNoteChange: (uuid: string, val: string) => void
   onResolve: (complaint: Complaint) => void
 }) {
   return (
@@ -47,12 +47,12 @@ export function ComplaintsTable({
         <tbody>
           {complaints.map((c) => (
             <ComplaintRow
-              key={c.id}
+              key={c.uuid}
               complaint={c}
               userRole={userRole}
-              resolutionNote={resolutionNotes[c.id] ?? ""}
-              isResolving={resolvingIds.has(c.id)}
-              onNoteChange={(val) => onNoteChange(c.id, val)}
+              resolutionNote={resolutionNotes[c.uuid] ?? ""}
+              isResolving={resolvingIds.has(c.uuid)}
+              onNoteChange={(val) => onNoteChange(c.uuid, val)}
               onResolve={() => onResolve(c)}
             />
           ))}

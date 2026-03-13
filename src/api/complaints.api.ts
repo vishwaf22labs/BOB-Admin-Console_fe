@@ -42,11 +42,11 @@ export async function listComplaints(
 }
 
 export async function resolveComplaint(
-  id: string,
+  uuid: string,
   resolutionNote: string
 ): Promise<Complaint> {
   const { data } = await api.patch<ResolveComplaintResponse>(
-    `/complaints/${id}/resolve`,
+    `/complaints/${uuid}/resolve`,
     { resolutionNote }
   )
   return data.complaint
